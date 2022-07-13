@@ -1,0 +1,225 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator nestgraphql {
+  provider = "prisma-nestjs-graphql"
+  output   = "generated"
+  reExport = Directories
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Permissions {
+  id                 Int       @id @default(autoincrement())
+  system_resource_id Int
+  user_role          UsersRole
+  can_create         Boolean
+  can_read           Boolean
+  can_update         Boolean
+  can_delete         Boolean
+  created_at         DateTime  @default(now())
+  update_at          DateTime  @updatedAt
+
+  system_resources SystemResources @relation(fields: [system_resource_id], references: [id])
+
+  @@index([system_resource_id], map: "UsersPermissions_system_resource_id_fkey")
+  @@map("permissions")
+}
+
+model Courses {
+  id          Int      @id @default(autoincrement())
+  name        String
+  duration    Int
+  category_id Int
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  courses_categories CoursesCategories @relation(fields: [category_id], references: [id], onUpdate: Restrict)
+
+  courses_subjects CoursesSubjects[]
+  courses_teachers CoursesTeachers[]
+  grades           Grades[]
+  students         Students[]
+
+  @@index([category_id], map: "courses_category_id_fkey")
+  @@map("courses")
+}
+
+model CoursesCategories {
+  id         Int      @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  courses Courses[]
+
+  @@map("courses_categories")
+}
+
+model CoursesSubjects {
+  id         Int      @id @default(autoincrement())
+  course_id  Int
+  subject_id Int
+  created_at DateTime @default(now())
+  update_at  DateTime @updatedAt
+
+  courses  Courses  @relation(fields: [course_id], references: [id])
+  subjects Subjects @relation(fields: [subject_id], references: [id])
+
+
+  @@index([course_id], map: "courses_subjects_course_id_fkey")
+  @@index([subject_id], map: "courses_subjects_subject_id_fkey")
+  @@map("courses_subjects")
+}
+
+model CoursesTeachers {
+  id         Int      @id @default(autoincrement())
+  course_id  Int
+  teacher_id Int
+  created_at DateTime @default(now())
+  update_at  DateTime @updatedAt
+
+  courses  Courses  @relation(fields: [course_id], references: [id])
+  teachers Teachers @relation(fields: [teacher_id], references: [id])
+
+
+  @@index([course_id], map: "courses_teachers_course_id_fkey")
+  @@index([teacher_id], map: "courses_teachers_teacher_id_fkey")
+  @@map("courses_teachers")
+}
+
+model Grades {
+  id           Int              @id @default(autoincrement())
+  subject_id   Int
+  course_id    Int
+  student_id   Int
+  teacher_id   Int
+  semester     Int
+  first_grade  Decimal          @db.Decimal(2, 2)
+  second_grade Decimal          @db.Decimal(2, 2)
+  extra_grade  Decimal          @db.Decimal(2, 2)
+  final_grade  Decimal          @db.Decimal(2, 2)
+  situation    StudentSituation
+  created_at   DateTime         @default(now())
+  update_at    DateTime         @updatedAt
+
+  courses  Courses  @relation(fields: [course_id], references: [id])
+  students Students @relation(fields: [student_id], references: [id])
+  subjects Subjects @relation(fields: [subject_id], references: [id])
+  teachers Teachers @relation(fields: [teacher_id], references: [id])
+
+
+  @@index([course_id], map: "grades_course_id_fkey")
+  @@index([student_id], map: "grades_student_id_fkey")
+  @@index([subject_id], map: "grades_subject_id_fkey")
+  @@index([teacher_id], map: "grades_teacher_id_fkey")
+  @@map("grades")
+}
+
+model Students {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  course_id  Int
+  student_id String   @unique
+  semester   Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  courses Courses @relation(fields: [course_id], references: [id], onUpdate: Restrict)
+  users   Users   @relation(fields: [user_id], references: [id], onUpdate: Restrict)
+
+  grades Grades[]
+
+  @@index([course_id], map: "students_course_id_fkey")
+  @@index([user_id], map: "students_user_id_fkey")
+  @@map("students")
+}
+
+model Subjects {
+  id         Int      @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now())
+  update_at  DateTime @updatedAt
+
+  courses_subjects  CoursesSubjects[]
+  grades            Grades[]
+  teachers_subjects TeachersSubjects[]
+
+  @@map("subjects")
+}
+
+model SystemResources {
+  id         Int      @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now())
+  update_at  DateTime @updatedAt
+
+  permissions Permissions[]
+
+  @@map("system_resources")
+}
+
+model Teachers {
+  id         Int      @id @default(autoincrement())
+  teacher_id String
+  user_id    Int
+  created_at DateTime @default(now())
+  update_at  DateTime @updatedAt
+
+  users Users @relation(fields: [user_id], references: [id], onUpdate: Restrict)
+
+  courses_teachers  CoursesTeachers[]
+  grades            Grades[]
+  teachers_subjects TeachersSubjects[]
+
+  @@index([user_id], map: "teachers_user_id_fkey")
+  @@map("teachers")
+}
+
+model TeachersSubjects {
+  id         Int      @id @default(autoincrement())
+  subject_id Int
+  teacher_id Int
+  created_at DateTime @default(now())
+  update_at  DateTime @updatedAt
+
+  subjects Subjects @relation(fields: [subject_id], references: [id])
+  teachers Teachers @relation(fields: [teacher_id], references: [id])
+
+  @@index([subject_id], map: "teachers_subjects_subject_id_fkey")
+  @@index([teacher_id], map: "teachers_subjects_teacher_id_fkey")
+  @@map("teachers_subjects")
+}
+
+model Users {
+  id         Int       @id @default(autoincrement())
+  name       String
+  cpf        String    @unique
+  email      String    @unique
+  password   String
+  birth_date DateTime? @db.Date
+  role       UsersRole @default(USER)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+
+  students Students[]
+  teachers Teachers[]
+
+  @@map("users")
+}
+
+enum StudentSituation {
+  APPROVED
+  REPROVED
+}
+
+enum UsersRole {
+  STUDENT
+  TEACHER
+  ADMIN
+  USER
+}

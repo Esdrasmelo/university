@@ -19,6 +19,11 @@ import { PermissionModule } from './permission/permission.module';
 import { PermissionService } from './permission/permission.service';
 import { PermissionRepository } from './permission/permission.repository';
 import { PermissionResolver } from './permission/permission.resolver';
+import { StudentModule } from './student/student.module';
+import { TeacherModule } from './teacher/teacher.module';
+import { TeacherService } from './teacher/teacher.service';
+import { TeacherRepository } from './teacher/teacher.repository';
+import { TeacherResolver } from './teacher/teacher.resolver';
 
 @Module({
   imports: [
@@ -26,7 +31,13 @@ import { PermissionResolver } from './permission/permission.resolver';
       autoSchemaFile: 'schema.gql',
       context: ({ req }) => ({ headers: req.headers }),
       driver: ApolloDriver,
-      include: [UserModule, AuthModule, PermissionModule],
+      include: [
+        UserModule,
+        AuthModule,
+        PermissionModule,
+        StudentModule,
+        TeacherModule,
+      ],
       path: '/',
       // plugins: [ApolloServerPluginLandingPageLocalDefault()],
       introspection: true,
@@ -37,6 +48,8 @@ import { PermissionResolver } from './permission/permission.resolver';
     PermissionModule,
     UserModule,
     AuthModule,
+    StudentModule,
+    TeacherModule,
   ],
   controllers: [],
   providers: [
@@ -53,6 +66,9 @@ import { PermissionResolver } from './permission/permission.resolver';
     PermissionService,
     PermissionRepository,
     PermissionResolver,
+    TeacherService,
+    TeacherRepository,
+    TeacherResolver,
   ],
 })
 export class AppModule {}

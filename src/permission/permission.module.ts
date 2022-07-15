@@ -13,5 +13,6 @@ import { JwtService } from '@nestjs/jwt';
     PrismaService,
     JwtService,
   ],
+  exports: [PermissionService, PermissionRepository],
 })
 export class PermissionModule {}

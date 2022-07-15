@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Users } from '@prisma/client';
 import { UsersWhereInput, UsersWhereUniqueInput } from 'prisma/generated/users';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { UpdateUserInput, UserInput } from './dto/inputs';
+import { UpdateUserInput, CreateUserInput } from './dto';
 
 @Injectable()
 export class UserRepository {
@@ -28,7 +28,7 @@ export class UserRepository {
     }
   }
 
-  create(fields: UserInput): Promise<Users> {
+  create(fields: CreateUserInput): Promise<Users> {
     try {
       return this.prisma.users.create({
         data: fields,

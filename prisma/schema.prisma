@@ -168,7 +168,7 @@ model Teachers {
   teacher_id String
   user_id    Int
   created_at DateTime @default(now())
-  update_at  DateTime @updatedAt
+  updated_at DateTime @updatedAt
 
   users Users @relation(fields: [user_id], references: [id], onUpdate: Restrict)
 

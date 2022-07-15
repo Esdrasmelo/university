@@ -10,11 +10,11 @@ import { PermissionService } from './permission.service';
 
 @Resolver('Permissions')
 export class PermissionResolver {
-  constructor(private permissionService: PermissionService) {}
+  constructor(private readonly permissionService: PermissionService) {}
 
   @Query(() => [PermissionSchema])
   @UseGuards(GqlAuthGuard)
-  @UseInterceptors(new UserPermissions('ADMIN'))
+  @UseInterceptors(new UserPermissions('Permissions', 'can_read'))
   async permissions(
     @Args('where', { nullable: true }) where?: PermissionsWhereInput,
   ): Promise<Permissions[]> {
@@ -23,7 +23,7 @@ export class PermissionResolver {
 
   @Mutation(() => PermissionSchema)
   @UseGuards(GqlAuthGuard)
-  @UseInterceptors(new UserPermissions('ADMIN'))
+  @UseInterceptors(new UserPermissions('Permissions', 'can_create'))
   async createPermission(
     @Args('fields') fields: PermissionInput,
   ): Promise<Permissions> {
@@ -32,7 +32,7 @@ export class PermissionResolver {
 
   @Mutation(() => PermissionSchema)
   @UseGuards(GqlAuthGuard)
-  @UseInterceptors(new UserPermissions('ADMIN'))
+  @UseInterceptors(new UserPermissions('Permissions', 'can_update'))
   async updatePermission(
     @Args('id', { type: () => Int }) id: number,
     @Args('fields') fields: UpdatePermissionInput,
@@ -42,7 +42,7 @@ export class PermissionResolver {
 
   @Mutation(() => PermissionSchema)
   @UseGuards(GqlAuthGuard)
-  @UseInterceptors(new UserPermissions('ADMIN'))
+  @UseInterceptors(new UserPermissions('Permissions', 'can_delete'))
   async deletePermission(
     @Args('id', { type: () => Int }) id: number,
   ): Promise<Permissions> {

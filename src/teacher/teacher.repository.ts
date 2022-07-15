@@ -1,0 +1,59 @@
+import { Injectable } from '@nestjs/common';
+import { Teachers } from '@prisma/client';
+import { TeachersWhereInput } from 'prisma/generated/teachers';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateTeacherInput } from './dto/create-teacher.input';
+import { UpdateTeacherInput } from './dto/update-teacher.input';
+
+@Injectable()
+export class TeacherRepository {
+  constructor(private prisma: PrismaService) {}
+
+  async get(where?: TeachersWhereInput): Promise<Teachers[]> {
+    try {
+      return this.prisma.teachers.findMany({
+        where,
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async create(createTeacherInput: CreateTeacherInput): Promise<Teachers> {
+    try {
+      return this.prisma.teachers.create({
+        data: createTeacherInput,
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async update(
+    id: number,
+    updateTeacherInput: UpdateTeacherInput,
+  ): Promise<Teachers> {
+    try {
+      return this.prisma.teachers.update({
+        data: updateTeacherInput,
+        where: {
+          id,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async delete(id: number): Promise<Teachers> {
+    try {
+      return this.prisma.teachers.delete({
+        where: {
+          id,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+}

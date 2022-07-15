@@ -2,7 +2,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Users } from '@prisma/client';
 import { UsersWhereInput, UsersWhereUniqueInput } from 'prisma/generated/users';
 import { BcryptUtils } from 'src/utils/bcrypt.utils';
-import { UpdateUserInput, UserInput } from './dto/inputs';
+import { UpdateUserInput, CreateUserInput } from './dto';
 import { UserRepository } from './user.repository';
 
 @Injectable()
@@ -38,9 +38,9 @@ export class UserService {
     }
   }
 
-  async createUser(fields: UserInput): Promise<Users> {
+  async createUser(createUserInput: CreateUserInput): Promise<Users> {
     try {
-      const { password, ...user_fields } = fields;
+      const { password, ...user_fields } = createUserInput;
 
       const encryptedPassword = await this.bcryptUtils.encrypt(password);
 
@@ -58,9 +58,12 @@ export class UserService {
     }
   }
 
-  async updateUser(id: number, fields: UpdateUserInput): Promise<Users> {
+  async updateUser(
+    id: number,
+    updateUserInput: UpdateUserInput,
+  ): Promise<Users> {
     try {
-      const updatedUser = await this.userRepository.update(id, fields);
+      const updatedUser = await this.userRepository.update(id, updateUserInput);
 
       return updatedUser;
     } catch (error) {

@@ -128,7 +128,7 @@ CREATE TABLE `teachers` (
     `teacher_id` VARCHAR(191) NOT NULL,
     `user_id` INTEGER NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `update_at` DATETIME(3) NOT NULL,
+    `updated_at` DATETIME(3) NOT NULL,
 
     INDEX `teachers_user_id_fkey`(`user_id`),
     PRIMARY KEY (`id`)

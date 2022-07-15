@@ -8,6 +8,7 @@ import { GqlAuthGuard } from 'src/auth/guards/gql-auth.guard';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { UserPermissions } from 'src/auth/guards/permissions-auth.guard';
 import { Students } from '@prisma/client';
+import { StudentsGuard } from 'src/auth/guards/students-auth.guard';
 
 @Resolver()
 export class StudentResolver {
@@ -30,7 +31,7 @@ export class StudentResolver {
   }
 
   @UseGuards(GqlAuthGuard)
-  @UseInterceptors(new UserPermissions('Students', 'can_update'))
+  @UseInterceptors(new StudentsGuard('can_update'))
   @Mutation(() => StudentSchema)
   async updateStudent(
     @Args('id', { type: () => Int }) id: number,
@@ -40,7 +41,7 @@ export class StudentResolver {
   }
 
   @UseGuards(GqlAuthGuard)
-  @UseInterceptors(new UserPermissions('Students', 'can_delete'))
+  @UseInterceptors(new StudentsGuard('can_delete'))
   @Mutation(() => StudentSchema)
   async deleteStudent(
     @Args('id', { type: () => Int }) id: number,

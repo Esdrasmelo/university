@@ -1,6 +1,9 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Teachers } from '@prisma/client';
-import { TeachersWhereInput } from 'prisma/generated/teachers';
+import {
+  TeachersWhereInput,
+  TeachersWhereUniqueInput,
+} from 'prisma/generated/teachers';
 import { CreateTeacherInput } from './dto/create-teacher.input';
 import { UpdateTeacherInput } from './dto/update-teacher.input';
 import { TeacherRepository } from './teacher.repository';
@@ -8,6 +11,41 @@ import { TeacherRepository } from './teacher.repository';
 @Injectable()
 export class TeacherService {
   constructor(private teacherRepository: TeacherRepository) {}
+
+  private async teacherIdExists(teacherId: string) {
+    try {
+      const uniqueTeacherId = await this.getUniqueTeacher({
+        teacher_id: teacherId,
+      });
+
+      if (!uniqueTeacherId) return false;
+
+      return true;
+    } catch (error) {
+      throw new InternalServerErrorException();
+    }
+  }
+
+  private async generateTeacherId(): Promise<string> {
+    let definitiveTeacherId: string;
+    let exists = true;
+
+    while (exists) {
+      const randomNumber = (Math.random() * 100000).toFixed(0);
+      const currentYear = new Date().getFullYear();
+      const teacherId = `TID-${currentYear}${randomNumber}`;
+      const teacherIdAlreadyExists = await this.teacherIdExists(teacherId);
+
+      if (!teacherIdAlreadyExists) {
+        exists = false;
+        definitiveTeacherId = teacherId;
+
+        break;
+      }
+    }
+
+    return definitiveTeacherId;
+  }
 
   async getTeachers(where?: TeachersWhereInput): Promise<Teachers[]> {
     try {
@@ -17,11 +55,21 @@ export class TeacherService {
     }
   }
 
+  async getUniqueTeacher(where?: TeachersWhereUniqueInput): Promise<Teachers> {
+    try {
+      return this.teacherRepository.getUnique(where);
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
   async createTeacher(
     createTeacherInput: CreateTeacherInput,
   ): Promise<Teachers> {
     try {
-      return this.teacherRepository.create(createTeacherInput);
+      const teacherId = await this.generateTeacherId();
+
+      return this.teacherRepository.create(createTeacherInput, teacherId);
     } catch (error) {
       throw new InternalServerErrorException(error);
     }

@@ -4,6 +4,8 @@ import { permissionsSeeds } from './permissions.seeds';
 import { systemResourcesSeeds } from './resources.seeds';
 import { coursesCategoriesSeeds } from './coursesCategories.seeds';
 import { coursesSeeds } from './course.seeds';
+import { studentsSeeds } from './students.seeds';
+import { teachersSeeds } from './teachers.seeds';
 
 export class mainSeeder {
   constructor(private prisma: PrismaService) {}
@@ -25,6 +27,12 @@ export class mainSeeder {
     });
     await this.prisma.courses.createMany({
       data: coursesSeeds,
+    });
+    await this.prisma.students.createMany({
+      data: studentsSeeds,
+    });
+    await this.prisma.teachers.createMany({
+      data: teachersSeeds,
     });
   }
 }

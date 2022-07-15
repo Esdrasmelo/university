@@ -4,14 +4,11 @@ import {
   CallHandler,
   UnauthorizedException,
   Injectable,
-  CanActivate,
   InternalServerErrorException,
 } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { UsersRole } from '@prisma/client';
-import { ACGuard } from 'nest-access-control';
-import { Observable, tap } from 'rxjs';
-import { PermissionService } from 'src/permission/permission.service';
+import { tap } from 'rxjs';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()

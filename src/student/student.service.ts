@@ -33,7 +33,7 @@ export class StudentService {
     while (exists) {
       const randomNumber = (Math.random() * 100000).toFixed(0);
       const currentYear = new Date().getFullYear();
-      const studentId = `ID-${currentYear}${randomNumber}`;
+      const studentId = `SID-${currentYear}${randomNumber}`;
       const studentIdAlreadyExists = await this.studentIdExists(studentId);
 
       if (!studentIdAlreadyExists) {

@@ -165,7 +165,7 @@ model SystemResources {
 
 model Teachers {
   id         Int      @id @default(autoincrement())
-  teacher_id String
+  teacher_id String   @unique
   user_id    Int
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

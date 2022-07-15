@@ -37,12 +37,21 @@ export class StudentRepository {
     studentId: string,
   ): Promise<Students> {
     try {
-      return this.prisma.students.create({
+      const createdStudent = await this.prisma.students.create({
         data: {
           ...createStudentInput,
           student_id: studentId,
         },
       });
+
+      this.prisma.users.update({
+        where: { id: createStudentInput.user_id },
+        data: {
+          role: 'STUDENT',
+        },
+      });
+
+      return createdStudent;
     } catch (error) {
       throw error;
     }

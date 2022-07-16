@@ -23,12 +23,12 @@ export class AuthService {
         email,
       });
 
-      const arePasswordsEquals = await this.bcryptUtils.compareValues(
-        password,
-        user.password,
-      );
+      const arePasswordsEquals = user
+        ? await this.bcryptUtils.compareValues(password, user.password)
+        : null;
 
-      if (!arePasswordsEquals) throw new UnauthorizedException();
+      if (!arePasswordsEquals)
+        throw new UnauthorizedException('Invalid Credentials');
 
       return user;
     } catch (error) {

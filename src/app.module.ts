@@ -32,6 +32,10 @@ import { CourseModule } from './course/course.module';
 import { CourseService } from './course/course.service';
 import { CourseRepository } from './course/course.repository';
 import { CourseResolver } from './course/course.resolver';
+import { SystemResourceModule } from './system-resource/system-resource.module';
+import { SystemResourceService } from './system-resource/system-resource.service';
+import { SystemResourceRepository } from './system-resource/system-resource.repository';
+import { SystemResourceResolver } from './system-resource/system-resource.resolver';
 
 @Module({
   imports: [
@@ -47,6 +51,7 @@ import { CourseResolver } from './course/course.resolver';
         TeacherModule,
         CourseCategoryModule,
         CourseModule,
+        SystemResourceModule,
       ],
       path: '/',
       // plugins: [ApolloServerPluginLandingPageLocalDefault()],
@@ -62,6 +67,7 @@ import { CourseResolver } from './course/course.resolver';
     TeacherModule,
     CourseCategoryModule,
     CourseModule,
+    SystemResourceModule,
   ],
   controllers: [],
   providers: [
@@ -87,6 +93,9 @@ import { CourseResolver } from './course/course.resolver';
     CourseService,
     CourseRepository,
     CourseResolver,
+    SystemResourceService,
+    SystemResourceRepository,
+    SystemResourceResolver,
   ],
 })
 export class AppModule {}

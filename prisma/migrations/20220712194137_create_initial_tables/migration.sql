@@ -8,7 +8,7 @@ CREATE TABLE `permissions` (
     `can_update` BOOLEAN NOT NULL,
     `can_delete` BOOLEAN NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `update_at` DATETIME(3) NOT NULL,
+    `updated_at` DATETIME(3) NOT NULL,
 
     INDEX `UsersPermissions_system_resource_id_fkey`(`system_resource_id`),
     PRIMARY KEY (`id`)
@@ -43,7 +43,7 @@ CREATE TABLE `courses_subjects` (
     `course_id` INTEGER NOT NULL,
     `subject_id` INTEGER NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `update_at` DATETIME(3) NOT NULL,
+    `updated_at` DATETIME(3) NOT NULL,
 
     INDEX `courses_subjects_course_id_fkey`(`course_id`),
     INDEX `courses_subjects_subject_id_fkey`(`subject_id`),
@@ -56,7 +56,7 @@ CREATE TABLE `courses_teachers` (
     `course_id` INTEGER NOT NULL,
     `teacher_id` INTEGER NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `update_at` DATETIME(3) NOT NULL,
+    `updated_at` DATETIME(3) NOT NULL,
 
     INDEX `courses_teachers_course_id_fkey`(`course_id`),
     INDEX `courses_teachers_teacher_id_fkey`(`teacher_id`),
@@ -77,7 +77,7 @@ CREATE TABLE `grades` (
     `final_grade` DECIMAL(2, 2) NOT NULL,
     `situation` ENUM('APPROVED', 'REPROVED') NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `update_at` DATETIME(3) NOT NULL,
+    `updated_at` DATETIME(3) NOT NULL,
 
     INDEX `grades_course_id_fkey`(`course_id`),
     INDEX `grades_student_id_fkey`(`student_id`),
@@ -107,7 +107,7 @@ CREATE TABLE `subjects` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `update_at` DATETIME(3) NOT NULL,
+    `updated_at` DATETIME(3) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -117,7 +117,7 @@ CREATE TABLE `system_resources` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `update_at` DATETIME(3) NOT NULL,
+    `updated_at` DATETIME(3) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -140,7 +140,7 @@ CREATE TABLE `teachers_subjects` (
     `subject_id` INTEGER NOT NULL,
     `teacher_id` INTEGER NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `update_at` DATETIME(3) NOT NULL,
+    `updated_at` DATETIME(3) NOT NULL,
 
     INDEX `teachers_subjects_subject_id_fkey`(`subject_id`),
     INDEX `teachers_subjects_teacher_id_fkey`(`teacher_id`),

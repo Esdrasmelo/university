@@ -2,7 +2,7 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 import { UsersRole } from '@prisma/client';
 
 @InputType()
-export class PermissionInput {
+export class CreatePermissionInput {
   @Field(() => Int)
   system_resource_id: number;
 

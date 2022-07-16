@@ -4,8 +4,8 @@ import {
   StudentsWhereInput,
   StudentsWhereUniqueInput,
 } from 'prisma/generated/students';
-import { CreateStudentInput } from './dto/create-student.input';
-import { UpdateStudentInput } from './dto/update-student.input';
+import { CreateStudentInput } from './dto/inputs/create-student.input';
+import { UpdateStudentInput } from './dto/inputs/update-student.input';
 import { StudentRepository } from './student.repository';
 
 @Injectable()

@@ -5,8 +5,8 @@ import {
   StudentsWhereUniqueInput,
 } from 'prisma/generated/students';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateStudentInput } from './dto/create-student.input';
-import { UpdateStudentInput } from './dto/update-student.input';
+import { CreateStudentInput } from './dto/inputs/create-student.input';
+import { UpdateStudentInput } from './dto/inputs/update-student.input';
 
 @Injectable()
 export class StudentRepository {

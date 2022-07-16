@@ -24,6 +24,14 @@ import { TeacherModule } from './teacher/teacher.module';
 import { TeacherService } from './teacher/teacher.service';
 import { TeacherRepository } from './teacher/teacher.repository';
 import { TeacherResolver } from './teacher/teacher.resolver';
+import { CourseCategoryModule } from './course-category/course-category.module';
+import { CourseCategoryService } from './course-category/course-category.service';
+import { CourseCategoryRepository } from './course-category/course-category.repository';
+import { CourseCategoryResolver } from './course-category/course-category.resolver';
+import { CourseModule } from './course/course.module';
+import { CourseService } from './course/course.service';
+import { CourseRepository } from './course/course.repository';
+import { CourseResolver } from './course/course.resolver';
 
 @Module({
   imports: [
@@ -37,6 +45,8 @@ import { TeacherResolver } from './teacher/teacher.resolver';
         PermissionModule,
         StudentModule,
         TeacherModule,
+        CourseCategoryModule,
+        CourseModule,
       ],
       path: '/',
       // plugins: [ApolloServerPluginLandingPageLocalDefault()],
@@ -50,25 +60,33 @@ import { TeacherResolver } from './teacher/teacher.resolver';
     AuthModule,
     StudentModule,
     TeacherModule,
+    CourseCategoryModule,
+    CourseModule,
   ],
   controllers: [],
   providers: [
     PrismaService,
-    UserResolver,
-    UserService,
-    UserRepository,
-    AuthService,
-    AuthResolver,
     BcryptUtils,
     JwtService,
     JwtStrategy,
     GqlAuthGuard,
+    AuthService,
+    AuthResolver,
+    UserService,
+    UserRepository,
+    UserResolver,
     PermissionService,
     PermissionRepository,
     PermissionResolver,
     TeacherService,
     TeacherRepository,
     TeacherResolver,
+    CourseCategoryService,
+    CourseCategoryRepository,
+    CourseCategoryResolver,
+    CourseService,
+    CourseRepository,
+    CourseResolver,
   ],
 })
 export class AppModule {}

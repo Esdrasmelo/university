@@ -1,7 +1,8 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Permissions } from '@prisma/client';
 import { PermissionsWhereInput } from 'prisma/generated/permissions';
-import { PermissionInput, UpdatePermissionInput } from './dtos/inputs';
+import { CreatePermissionInput } from './dtos/inputs/create-permission.input';
+import { UpdatePermissionInput } from './dtos/inputs/update-permission.input';
 import { PermissionRepository } from './permission.repository';
 
 @Injectable()
@@ -16,7 +17,7 @@ export class PermissionService {
     }
   }
 
-  createPermission(fields: PermissionInput): Promise<Permissions> {
+  createPermission(fields: CreatePermissionInput): Promise<Permissions> {
     try {
       return this.permissionRepository.create(fields);
     } catch (error) {

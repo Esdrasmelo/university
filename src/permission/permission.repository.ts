@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { Permissions } from '@prisma/client';
 import { PermissionsWhereInput } from 'prisma/generated/permissions';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { PermissionInput, UpdatePermissionInput } from './dtos/inputs';
+import { CreatePermissionInput } from './dtos/inputs/create-permission.input';
+import { UpdatePermissionInput } from './dtos/inputs/update-permission.input';
 
 @Injectable()
 export class PermissionRepository {
@@ -18,7 +19,7 @@ export class PermissionRepository {
     }
   }
 
-  create(fields: PermissionInput): Promise<Permissions> {
+  create(fields: CreatePermissionInput): Promise<Permissions> {
     try {
       return this.prisma.permissions.create({
         data: fields,

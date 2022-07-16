@@ -8,50 +8,48 @@ import {
 } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { UsersRole } from '@prisma/client';
-import { tap } from 'rxjs';
+import { Observable, tap, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
-export class UserPermissions implements NestInterceptor {
+export class UserPermissionsGuard implements NestInterceptor {
   constructor(private resource: string, private ability: string) {}
 
   private async verifyPermissions(userRole: UsersRole): Promise<boolean> {
-    try {
-      const prisma = new PrismaService();
-      const permissions = await prisma.permissions.findMany({
-        where: {
-          system_resources: {
-            name: this.resource,
-          },
-          user_role: {
-            equals: userRole,
-          },
+    const prisma = new PrismaService();
+    const permissions = await prisma.permissions.findMany({
+      where: {
+        system_resources: {
+          name: this.resource,
         },
-        select: {
-          [this.ability]: true,
+        user_role: {
+          equals: userRole,
         },
-      });
+      },
+      select: {
+        [this.ability]: true,
+      },
+    });
 
-      if (!permissions.length || !permissions[0][this.ability]) return false;
+    console.log(permissions);
 
-      return true;
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
+    if (!permissions.length || !permissions[0][this.ability]) return false;
+
+    return true;
   }
 
-  async intercept(context: ExecutionContext, next: CallHandler) {
+  async intercept(
+    context: ExecutionContext,
+    next: CallHandler,
+  ): Promise<Observable<any>> {
     const loggedUser = GqlExecutionContext.create(context).getContext().user;
     const userHasPermission = await this.verifyPermissions(loggedUser.roles);
 
     if (userHasPermission) return next.handle().pipe(tap(() => true));
 
-    return next.handle().pipe(
-      tap(() => {
-        throw new UnauthorizedException(
-          'You do not have permission to access this route',
-        );
-      }),
+    throw new UnauthorizedException(
+      'You do not have permission to access this route',
     );
   }
 }

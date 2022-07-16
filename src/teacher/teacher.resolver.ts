@@ -1,13 +1,13 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { TeacherService } from './teacher.service';
 import { TeacherSchema } from './entities/teacher.entity';
-import { CreateTeacherInput } from './dto/create-teacher.input';
-import { UpdateTeacherInput } from './dto/update-teacher.input';
+import { CreateTeacherInput } from './dto/inputs/create-teacher.input';
+import { UpdateTeacherInput } from './dto/inputs/update-teacher.input';
 import { TeachersWhereInput } from 'prisma/generated/teachers';
 import { Teachers } from '@prisma/client';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/auth/guards/gql-auth.guard';
-import { UserPermissions } from 'src/auth/guards/permissions-auth.guard';
+import { UserPermissionsGuard } from 'src/auth/guards/permissions-auth.guard';
 import { TeachersGuard } from 'src/auth/guards/teachers-auth.guard';
 
 @Resolver()
@@ -16,7 +16,7 @@ export class TeacherResolver {
 
   @Query(() => [TeacherSchema])
   @UseGuards(GqlAuthGuard)
-  @UseInterceptors(new UserPermissions('Teachers', 'can_read'))
+  @UseInterceptors(new UserPermissionsGuard('Teachers', 'can_read'))
   async teachers(
     @Args('where', { nullable: true }) where?: TeachersWhereInput,
   ): Promise<Teachers[]> {
@@ -25,7 +25,7 @@ export class TeacherResolver {
 
   @Mutation(() => TeacherSchema)
   @UseGuards(GqlAuthGuard)
-  @UseInterceptors(new UserPermissions('Teachers', 'can_create'))
+  @UseInterceptors(new UserPermissionsGuard('Teachers', 'can_create'))
   async createTeacher(
     @Args('createTeacherInput') createTeacherInput: CreateTeacherInput,
   ): Promise<Teachers> {

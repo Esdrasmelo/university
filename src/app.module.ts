@@ -44,6 +44,11 @@ import { CourseSubjectModule } from './course-subject/course-subject.module';
 import { CourseSubjectService } from './course-subject/course-subject.service';
 import { CourseSubjectRepository } from './course-subject/course-subject.repository';
 import { CourseSubjectResolver } from './course-subject/course-subject.resolver';
+import { CourseTeacherModule } from './course-teacher/course-teacher.module';
+import { CourseTeacherService } from './course-teacher/course-teacher.service';
+import { CourseTeacherRepository } from './course-teacher/course-teacher.repository';
+import { CourseTeacherResolver } from './course-teacher/course-teacher.resolver';
+import { TeacherSubjectModule } from './teacher-subject/teacher-subject.module';
 
 @Module({
   imports: [
@@ -62,6 +67,7 @@ import { CourseSubjectResolver } from './course-subject/course-subject.resolver'
         SystemResourceModule,
         SubjectModule,
         CourseSubjectModule,
+        CourseTeacherModule,
       ],
       path: '/',
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
@@ -83,6 +89,8 @@ import { CourseSubjectResolver } from './course-subject/course-subject.resolver'
     SystemResourceModule,
     SubjectModule,
     CourseSubjectModule,
+    CourseTeacherModule,
+    TeacherSubjectModule,
   ],
   controllers: [],
   providers: [
@@ -117,6 +125,9 @@ import { CourseSubjectResolver } from './course-subject/course-subject.resolver'
     CourseSubjectService,
     CourseSubjectRepository,
     CourseSubjectResolver,
+    CourseTeacherService,
+    CourseTeacherRepository,
+    CourseTeacherResolver,
   ],
 })
 export class AppModule {}

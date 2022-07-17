@@ -61,4 +61,16 @@ export const systemResourcesSeeds: SystemResources[] = [
     created_at: new Date(),
     updated_at: new Date(),
   },
+  {
+    id: 11,
+    name: 'Permissions',
+    created_at: new Date(),
+    updated_at: new Date(),
+  },
+  {
+    id: 12,
+    name: 'Courses Teachers',
+    created_at: new Date(),
+    updated_at: new Date(),
+  },
 ];

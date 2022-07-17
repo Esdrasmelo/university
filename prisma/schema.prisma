@@ -99,10 +99,10 @@ model Grades {
   student_id   Int
   teacher_id   Int
   semester     Int
-  first_grade  Decimal          @db.Decimal(2, 2)
-  second_grade Decimal          @db.Decimal(2, 2)
-  extra_grade  Decimal          @db.Decimal(2, 2)
-  final_grade  Decimal          @db.Decimal(2, 2)
+  first_grade  Decimal          @db.Decimal(65, 2)
+  second_grade Decimal          @db.Decimal(65, 2)
+  extra_grade  Decimal          @db.Decimal(65, 2)
+  final_grade  Decimal          @db.Decimal(65, 2)
   situation    StudentSituation
   created_at   DateTime         @default(now())
   updated_at   DateTime         @updatedAt

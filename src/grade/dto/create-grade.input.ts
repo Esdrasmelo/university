@@ -1,6 +1,5 @@
 import { InputType, Int, Field, Float } from '@nestjs/graphql';
 import { StudentSituation } from '@prisma/client';
-import { Decimal } from '@prisma/client/runtime';
 
 @InputType()
 export class CreateGradeInput {

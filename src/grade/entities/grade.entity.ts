@@ -1,6 +1,5 @@
 import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
 import { StudentSituation } from '@prisma/client';
-import { Decimal } from '@prisma/client/runtime';
 
 @ObjectType()
 export class GradeSchema {

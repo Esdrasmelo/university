@@ -19,7 +19,7 @@ export class GradeResolver {
   grades(
     @Args('where', { nullable: true }) where?: GradesWhereInput,
   ): Promise<Grades[]> {
-    return this.gradesService.grades();
+    return this.gradesService.grades(where);
   }
 
   @Mutation(() => GradeSchema)

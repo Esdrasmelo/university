@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Users } from '@prisma/client';
 import { UsersWhereInput, UsersWhereUniqueInput } from 'prisma/generated/users';
-import { BcryptUtils } from 'src/utils/bcrypt.utils';
+import { BcryptUtils } from '../utils/bcrypt.utils';
 import { CreateUserInput } from './dto/inputs/create-user.input';
 import { UpdateUserInput } from './dto/inputs/update-user.input';
 import { UserRepository } from './user.repository';

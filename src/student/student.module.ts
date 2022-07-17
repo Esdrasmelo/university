@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { StudentService } from './student.service';
 import { StudentResolver } from './student.resolver';
 import { StudentRepository } from './student.repository';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 
 @Module({

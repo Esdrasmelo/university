@@ -36,6 +36,10 @@ import { SystemResourceModule } from './system-resource/system-resource.module';
 import { SystemResourceService } from './system-resource/system-resource.service';
 import { SystemResourceRepository } from './system-resource/system-resource.repository';
 import { SystemResourceResolver } from './system-resource/system-resource.resolver';
+import { SubjectModule } from './subject/subject.module';
+import { SubjectService } from './subject/subject.service';
+import { SubjectRepository } from './subject/subject.repository';
+import { SubjectResolver } from './subject/subject.resolver';
 
 @Module({
   imports: [
@@ -52,10 +56,14 @@ import { SystemResourceResolver } from './system-resource/system-resource.resolv
         CourseCategoryModule,
         CourseModule,
         SystemResourceModule,
+        SubjectModule,
       ],
       path: '/',
-      // plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      plugins: [ApolloServerPluginLandingPageLocalDefault()],
       introspection: true,
+      playground: false,
+      installSubscriptionHandlers: true,
+      debug: false,
     }),
     ConfigModule.forRoot({
       isGlobal: true,
@@ -68,6 +76,7 @@ import { SystemResourceResolver } from './system-resource/system-resource.resolv
     CourseCategoryModule,
     CourseModule,
     SystemResourceModule,
+    SubjectModule,
   ],
   controllers: [],
   providers: [
@@ -96,6 +105,9 @@ import { SystemResourceResolver } from './system-resource/system-resource.resolv
     SystemResourceService,
     SystemResourceRepository,
     SystemResourceResolver,
+    SubjectService,
+    SubjectRepository,
+    SubjectResolver,
   ],
 })
 export class AppModule {}

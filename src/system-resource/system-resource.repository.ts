@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { SystemResourcesWhereInput } from 'prisma/generated/system-resources';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateSystemResourceInput } from './dto/create-system-resource.input';
 import { UpdateSystemResourceInput } from './dto/update-system-resource.input';
 

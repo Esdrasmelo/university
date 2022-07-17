@@ -8,7 +8,7 @@ import {
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { UsersRole } from '@prisma/client';
 import { tap } from 'rxjs';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 
 export class TeachersGuard implements NestInterceptor {
   constructor(private ability: string) {}

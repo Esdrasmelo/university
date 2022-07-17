@@ -4,7 +4,7 @@ import {
   TeachersWhereInput,
   TeachersWhereUniqueInput,
 } from 'prisma/generated/teachers';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateTeacherInput } from './dto/inputs/create-teacher.input';
 import { UpdateTeacherInput } from './dto/inputs/update-teacher.input';
 

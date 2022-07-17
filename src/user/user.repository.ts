@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Users } from '@prisma/client';
 import { UsersWhereInput, UsersWhereUniqueInput } from 'prisma/generated/users';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserInput } from './dto/inputs/create-user.input';
 import { UpdateUserInput } from './dto/inputs/update-user.input';
 

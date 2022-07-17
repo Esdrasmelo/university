@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CoursesCategories } from '@prisma/client';
 import { CoursesCategoriesWhereInput } from 'prisma/generated/courses-categories';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateCourseCategoryInput } from './dto/inputs/create-course-category.input';
 import { UpdateCourseCategoryInput } from './dto/inputs/update-course-category.input';
 

@@ -6,6 +6,7 @@ import { coursesCategoriesSeeds } from './coursesCategories.seeds';
 import { coursesSeeds } from './course.seeds';
 import { studentsSeeds } from './students.seeds';
 import { teachersSeeds } from './teachers.seeds';
+import { subjectsSeeds } from './subjects.seeds';
 
 export class mainSeeder {
   constructor(private prisma: PrismaService) {}
@@ -33,6 +34,9 @@ export class mainSeeder {
     });
     await this.prisma.teachers.createMany({
       data: teachersSeeds,
+    });
+    await this.prisma.subjects.createMany({
+      data: subjectsSeeds,
     });
   }
 }

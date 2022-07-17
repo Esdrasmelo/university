@@ -4,13 +4,11 @@ import {
   CallHandler,
   UnauthorizedException,
   Injectable,
-  InternalServerErrorException,
 } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { UsersRole } from '@prisma/client';
 import { Observable, tap, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class UserPermissionsGuard implements NestInterceptor {
@@ -31,8 +29,6 @@ export class UserPermissionsGuard implements NestInterceptor {
         [this.ability]: true,
       },
     });
-
-    console.log(permissions);
 
     if (!permissions.length || !permissions[0][this.ability]) return false;
 

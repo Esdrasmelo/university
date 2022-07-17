@@ -49,6 +49,9 @@ import { CourseTeacherService } from './course-teacher/course-teacher.service';
 import { CourseTeacherRepository } from './course-teacher/course-teacher.repository';
 import { CourseTeacherResolver } from './course-teacher/course-teacher.resolver';
 import { TeacherSubjectModule } from './teacher-subject/teacher-subject.module';
+import { TeacherSubjectService } from './teacher-subject/teacher-subject.service';
+import { TeacherSubjectRepository } from './teacher-subject/teacher-subejct.repository';
+import { TeacherSubjectResolver } from './teacher-subject/teacher-subject.resolver';
 
 @Module({
   imports: [
@@ -68,6 +71,7 @@ import { TeacherSubjectModule } from './teacher-subject/teacher-subject.module';
         SubjectModule,
         CourseSubjectModule,
         CourseTeacherModule,
+        TeacherSubjectModule,
       ],
       path: '/',
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
@@ -128,6 +132,9 @@ import { TeacherSubjectModule } from './teacher-subject/teacher-subject.module';
     CourseTeacherService,
     CourseTeacherRepository,
     CourseTeacherResolver,
+    TeacherSubjectService,
+    TeacherSubjectRepository,
+    TeacherSubjectResolver,
   ],
 })
 export class AppModule {}

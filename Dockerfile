@@ -1,13 +1,16 @@
-FROM node:16.16
+FROM node:16.16-alpine
 
-WORKDIR /usr/app
+WORKDIR /usr/src/app
 
-COPY package*.json ./
-
-COPY . .
+COPY package*.json yarn.lock ./
 
 RUN yarn install
-RUN yarn prisma migrate reset -f
+
+COPY prisma/schema.prisma ./prisma/
+
+RUN  npx prisma generate
+
+COPY . .
 
 EXPOSE 4000
 

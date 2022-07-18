@@ -82,7 +82,6 @@ import { GradeResolver } from './grade/grade.resolver';
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
       introspection: true,
       playground: false,
-      installSubscriptionHandlers: true,
       debug: false,
     }),
     ConfigModule.forRoot({

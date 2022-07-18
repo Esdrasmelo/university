@@ -16,7 +16,7 @@ export class GradeResolver {
   @Query(() => [GradeSchema])
   @UseGuards(GqlAuthGuard)
   @UseInterceptors(new UserPermissionsGuard('Grades', 'can_read'))
-  grades(
+  async grades(
     @Args('where', { nullable: true }) where?: GradesWhereInput,
   ): Promise<Grades[]> {
     return this.gradesService.grades(where);
@@ -25,7 +25,7 @@ export class GradeResolver {
   @Mutation(() => GradeSchema)
   @UseGuards(GqlAuthGuard)
   @UseInterceptors(new UserPermissionsGuard('Grades', 'can_create'))
-  createGrade(
+  async createGrade(
     @Args('createGradeInput') createGradeInput: CreateGradeInput,
   ): Promise<Grades> {
     return this.gradesService.createGrade(createGradeInput);
@@ -34,7 +34,7 @@ export class GradeResolver {
   @Mutation(() => GradeSchema)
   @UseGuards(GqlAuthGuard)
   @UseInterceptors(new UserPermissionsGuard('Grades', 'can_update'))
-  updateGrade(
+  async updateGrade(
     @Args('id', { type: () => Int }) id: number,
     @Args('updateGradeInput') updateGradeInput: UpdateGradeInput,
   ): Promise<Grades> {
@@ -44,7 +44,9 @@ export class GradeResolver {
   @Mutation(() => GradeSchema)
   @UseGuards(GqlAuthGuard)
   @UseInterceptors(new UserPermissionsGuard('Grades', 'can_delete'))
-  deleteGrade(@Args('id', { type: () => Int }) id: number): Promise<Grades> {
+  async deleteGrade(
+    @Args('id', { type: () => Int }) id: number,
+  ): Promise<Grades> {
     return this.gradesService.deleteGrade(id);
   }
 }

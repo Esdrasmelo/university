@@ -1,73 +1,65 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+  <img src="./assets/university-stack.png" width="1000" alt="Nest Logo" />
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# University
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+This project intent to simulate a system/API of an University, where the access on the system resources is controlled by the permissions based on 4 roles (USER, ADMIN, STUDENT, TEACHER).
 
-## Description
+## Stack
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+The system was developed using **[Nest.js](https://nestjs.com/)** as a back-end framework; **[GraphQL](https://graphql.org/)** and **[Apollo Server](https://www.apollographql.com/docs/)** to build and manage endpoints and handle with requests; **[Prisma.io](https://www.prisma.io/)** as ORM; the Javascript Superset **[Typescript](https://www.typescriptlang.org/)** to write/develop the code; **[Passport.js](https://docs.nestjs.com/security/authentication#implementing-passport-strategies)** to handle with Authentication and Authorization; **[Jest](https://jestjs.io/)** and **[Supertest](https://www.npmjs.com/package/supertest)** to build and run Tests; **[Docker](https://www.docker.com/)** to virtualize and build an image of this Project.
 
-## Installation
+## System Resources
 
-```bash
-$ npm install
-```
+The system has many resources which are:
 
-## Running the app
+- Users;
+- Students;
+- Teachers;
+- Courses Categories;
+- Courses;
+- Subjects;
+- Courses Subjects;
+- Teachers Subjects;
+- Grades;
+- System Resources;
+- Permissions;
+- Courses Teachers;
 
-```bash
-# development
-$ npm run start
+## Roles & Endpoints
 
-# watch mode
-$ npm run start:dev
+These are the Endpoints that each Role (USER, ADMIN, STUDENT, TEACHER) can access/manipulate freely:
 
-# production mode
-$ npm run start:prod
-```
+- USER:
+  - **queries:** users, coursesCategories, courses, subjects, coursesSubjects, teachersSubjects, grades, coursesTeachers.
+  - **mutations:** createUser, updateUser, deleteUser, createStudent, createTeacher;
+- ADMIN:
+  - **queries:** ADMIN can access/manipulate all queries;
+  - **mutations:** ADMIN can access/manipulate all mutations;
+- STUDENT:
+  - **queries:** users, students, teachers, coursesCategories, courses, subjects, coursesSubjects, teachersSubjects, grades, coursesTeachers;
+  - **mutations:** updateUser, deleteUser, updateStudent, deleteStudent;
+- TEACHER:
+  - **queries:** users, students, teachers, coursesCategories, courses, subjects, coursesSubjects, teachersSubjects, grades, coursesTeachers;
+  - **mutations:** updateTeacher, deleteTeacher, createGrade, updateGrade, deleteGrade;
 
-## Test
+## How to Use the System
 
-```bash
-# unit tests
-$ npm run test
+First of all, to use the system it's necessary clone the repository on your machine and open it on [Visual Studio Code](https://code.visualstudio.com/) and after this open an integrated terminal and execute the following CLI commands and steps:
 
-# e2e tests
-$ npm run test:e2e
+- run the command **yarn** or **yarn install**;
+- fill the environment variables which are located on .env file;
+- run the command **yarn prisma migrate reset -f**;
+- run the command **yarn start** or **yarn start:dev**;
 
-# test coverage
-$ npm run test:cov
-```
+After that you must create an account/user using the **createUser** mutation and then log-in on the system using the **login** mutation.
+To access and manipulate the system endpoints you have to be Authenticated, otherwise you will be prohibited by the Authentication mechanism to access/manipulate the endpoints.
 
-## Support
+To be Authenticated you have to get a [JWT](https://jwt.io/) token which is returned from the **login** mutation and pass it on the Authorization header parameter - you have to pass it on the field where you put the Header value, the value must be like this: **Bearer _generated_token_here_**.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+![](/assets/how_to_use_the_app.gif)
 
-## Stay in touch
+## Author
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+- [@Esdrasmelo](https://www.github.com/Esdrasmelo)

@@ -7,9 +7,9 @@ export const usersSeeds = async (): Promise<Users[]> => {
   return [
     {
       id: 1,
-      name: 'Esdras de Melo Motta',
-      email: 'emelomotta@gmail.com',
-      cpf: '49161638854',
+      name: 'ADMIN',
+      email: 'admin@gmail.com',
+      cpf: '13386748514',
       password: await bcrypt.encrypt('123456789'),
       birth_date: new Date(),
       role: 'ADMIN',

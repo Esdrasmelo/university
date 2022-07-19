@@ -1,5 +1,6 @@
 import { IsEmail, Length } from 'class-validator';
 import { Field, InputType } from '@nestjs/graphql';
+import { ValidCpf } from 'src/utils/cpf-validator.utils';
 
 @InputType()
 export class CreateUserInput {
@@ -14,6 +15,7 @@ export class CreateUserInput {
   @Field()
   password: string;
 
+  @ValidCpf({ message: 'Please, type a valid CPF.' })
   @Field()
   cpf: string;
 

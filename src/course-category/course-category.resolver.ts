@@ -6,8 +6,8 @@ import { UpdateCourseCategoryInput } from './dto/inputs/update-course-category.i
 import { CoursesCategories } from '@prisma/client';
 import { CoursesCategoriesWhereInput } from 'prisma/generated/courses-categories';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
-import { GqlAuthGuard } from 'src/auth/guards/gql-auth.guard';
-import { UserPermissionsGuard } from 'src/auth/guards/permissions-auth.guard';
+import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
+import { UserPermissionsGuard } from '../auth/guards/permissions-auth.guard';
 
 @Resolver()
 export class CourseCategoryResolver {

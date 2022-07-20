@@ -5,8 +5,8 @@ import { CreateSystemResourceInput } from './dto/create-system-resource.input';
 import { UpdateSystemResourceInput } from './dto/update-system-resource.input';
 import { SystemResourcesWhereInput } from 'prisma/generated/system-resources';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
-import { GqlAuthGuard } from 'src/auth/guards/gql-auth.guard';
-import { UserPermissionsGuard } from 'src/auth/guards/permissions-auth.guard';
+import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
+import { UserPermissionsGuard } from '../auth/guards/permissions-auth.guard';
 
 @Resolver()
 export class SystemResourceResolver {

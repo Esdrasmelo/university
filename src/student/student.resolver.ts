@@ -4,11 +4,11 @@ import { StudentSchema } from './entities/student.entity';
 import { CreateStudentInput } from './dto/inputs/create-student.input';
 import { UpdateStudentInput } from './dto/inputs/update-student.input';
 import { StudentsWhereInput } from 'prisma/generated/students';
-import { GqlAuthGuard } from 'src/auth/guards/gql-auth.guard';
+import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
-import { UserPermissionsGuard } from 'src/auth/guards/permissions-auth.guard';
+import { UserPermissionsGuard } from '../auth/guards/permissions-auth.guard';
 import { Students } from '@prisma/client';
-import { StudentsGuard } from 'src/auth/guards/students-auth.guard';
+import { StudentsGuard } from '../auth/guards/students-auth.guard';
 
 @Resolver()
 export class StudentResolver {

@@ -1,4 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { PrismaService } from '../prisma/prisma.service';
+import { PermissionRepository } from './permission.repository';
 import { PermissionService } from './permission.service';
 
 describe('PermissionService', () => {
@@ -6,7 +8,7 @@ describe('PermissionService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [PermissionService],
+      providers: [PermissionService, PermissionRepository, PrismaService],
     }).compile();
 
     service = module.get<PermissionService>(PermissionService);

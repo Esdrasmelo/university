@@ -6,8 +6,8 @@ import { UpdateSubjectInput } from './dto/update-subject.input';
 import { SubjectsWhereInput } from 'prisma/generated/subjects';
 import { Subjects } from '@prisma/client';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
-import { GqlAuthGuard } from 'src/auth/guards/gql-auth.guard';
-import { UserPermissionsGuard } from 'src/auth/guards/permissions-auth.guard';
+import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
+import { UserPermissionsGuard } from '../auth/guards/permissions-auth.guard';
 
 @Resolver()
 export class SubjectResolver {

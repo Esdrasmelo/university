@@ -6,8 +6,8 @@ import { UpdateTeacherSubjectInput } from './dto/update-teacher-subject.input';
 import { TeachersSubjectsWhereInput } from 'prisma/generated/teachers-subjects';
 import { TeachersSubjects } from '@prisma/client';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
-import { GqlAuthGuard } from 'src/auth/guards/gql-auth.guard';
-import { UserPermissionsGuard } from 'src/auth/guards/permissions-auth.guard';
+import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
+import { UserPermissionsGuard } from '../auth/guards/permissions-auth.guard';
 
 @Resolver()
 export class TeacherSubjectResolver {

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Grades } from '@prisma/client';
 import { GradesWhereInput } from 'prisma/generated/grades';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateGradeInput } from './dto/create-grade.input';
 import { UpdateGradeInput } from './dto/update-grade.input';
 

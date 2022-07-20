@@ -1,6 +1,9 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Users } from '@prisma/client';
-import { UsersWhereInput, UsersWhereUniqueInput } from 'prisma/generated/users';
+import {
+  UsersWhereInput,
+  UsersWhereUniqueInput,
+} from '../../prisma/generated/users';
 import { BcryptUtils } from '../utils/bcrypt.utils';
 import { CreateUserInput } from './dto/inputs/create-user.input';
 import { UpdateUserInput } from './dto/inputs/update-user.input';
@@ -19,10 +22,7 @@ export class UserService {
 
       return users;
     } catch (error) {
-      throw new InternalServerErrorException({
-        code: error.code,
-        meta: error.meta.target,
-      });
+      throw new InternalServerErrorException();
     }
   }
 
@@ -32,10 +32,7 @@ export class UserService {
 
       return user;
     } catch (error) {
-      throw new InternalServerErrorException({
-        code: error.code,
-        meta: error.meta.target,
-      });
+      throw new InternalServerErrorException();
     }
   }
 
@@ -52,10 +49,7 @@ export class UserService {
 
       return createdUser;
     } catch (error) {
-      throw new InternalServerErrorException({
-        code: error.code,
-        meta: error.meta.target,
-      });
+      throw new InternalServerErrorException();
     }
   }
 
@@ -68,10 +62,7 @@ export class UserService {
 
       return updatedUser;
     } catch (error) {
-      throw new InternalServerErrorException({
-        code: error.code,
-        meta: error.meta.target,
-      });
+      throw new InternalServerErrorException();
     }
   }
 
@@ -81,10 +72,7 @@ export class UserService {
 
       return deletedUser;
     } catch (error) {
-      throw new InternalServerErrorException({
-        code: error.code,
-        meta: error.meta.target,
-      });
+      throw new InternalServerErrorException();
     }
   }
 }

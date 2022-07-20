@@ -173,17 +173,29 @@ describe('UserService', () => {
   });
 
   describe('updateUser', () => {
-    const validId = 1;
+    const validUser: Omit<Users, 'password' | 'email'> =
+      TestUtil.returnValidUser();
+    const invalidUser = TestUtil.returnInvalidUsers()[0];
+    const validUserId = 1;
+    const invalidUserId = null;
 
     it('should update user', async () => {
-      const validUser: Omit<Users, 'password' | 'email'> =
-        TestUtil.returnValidUser();
-
       mockRepository.update.mockReturnValue(validUser);
 
-      const updatedUser = await service.updateUser(validId, validUser);
+      const updatedUser = await service.updateUser(validUserId, validUser);
 
       expect(updatedUser).toStrictEqual(validUser);
+    });
+
+    it('should not update user when providing wrong data type', async () => {
+      mockRepository.update.mockReturnValue(invalidUser);
+
+      const notUpdatedUser = await service.updateUser(
+        validUserId,
+        invalidUser as any,
+      );
+
+      expect(notUpdatedUser).not.toStrictEqual(validUser);
     });
   });
 });

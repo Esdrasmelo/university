@@ -68,6 +68,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "28.1.2",
+    "jest-extended": "^3.0.1",
     "prettier": "^2.3.2",
     "prisma-nestjs-graphql": "^17.0.0",
     "source-map-support": "^0.5.20",
@@ -93,7 +94,10 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "jest-extended/all"
+    ]
   },
   "prisma": {
     "seed": "ts-node prisma/seeds/mainSeeder.ts"

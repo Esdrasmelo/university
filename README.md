@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/university-stack.png" width="1000" alt="Nest Logo" />
+  <img src="./assets/university-stack.png" width="400" alt="Nest Logo" />
 </p>
 
 # University
@@ -53,7 +53,7 @@ First of all, to use the system it's necessary clone the repository on your mach
 - run the command **yarn prisma migrate reset -f**;
 - run the command **yarn start** or **yarn start:dev**;
 
-Go to the route "**localhost:port**" - where is write *port* you must put the number of the port that the app is running.
+Go to the route "**localhost:port**" - where is write _port_ you must put the number of the port that the app is running.
 
 After that you must create an account/user using the **createUser** mutation and then log-in on the system using the **login** mutation.
 To access and manipulate the system endpoints you have to be Authenticated, otherwise you will be prohibited by the Authentication mechanism to access/manipulate the endpoints.

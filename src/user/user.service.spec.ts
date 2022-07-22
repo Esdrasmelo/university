@@ -198,4 +198,17 @@ describe('UserService', () => {
       expect(notUpdatedUser).not.toStrictEqual(validUser);
     });
   });
+
+  describe('deleteUser', () => {
+    const validUser = TestUtil.returnValidUsers()[0];
+    const validUserId = 1;
+
+    it('should delete an user', async () => {
+      mockRepository.delete.mockReturnValue(validUser);
+
+      const deletedUser = await service.deleteUser(validUserId);
+
+      expect(deletedUser).toEqual(deletedUser);
+    });
+  });
 });

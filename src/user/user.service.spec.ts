@@ -13,14 +13,14 @@ import { InternalServerErrorException } from '@nestjs/common';
 import { Users } from '@prisma/client';
 
 describe('UserService', () => {
-  let service: UserService;
+  let userService: UserService;
 
-  const mockRepository = {
-    get: jest.fn(),
-    getUnique: jest.fn(),
-    create: jest.fn(),
-    update: jest.fn(),
-    delete: jest.fn(),
+  const mockUserRepository = {
+    get: () => {},
+    getUnique: () => {},
+    create: () => {},
+    update: () => {},
+    delete: () => {},
   };
 
   beforeAll(async () => {
@@ -31,24 +31,24 @@ describe('UserService', () => {
         BcryptUtils,
         {
           provide: UserRepository,
-          useValue: mockRepository,
+          useValue: mockUserRepository,
         },
       ],
     }).compile();
 
-    service = module.get<UserService>(UserService);
+    userService = module.get<UserService>(UserService);
   });
 
-  beforeEach(() => {
-    mockRepository.get.mockReset();
-    mockRepository.getUnique.mockReset();
-    mockRepository.create.mockReset();
-    mockRepository.update.mockReset();
-    mockRepository.delete.mockReset();
-  });
+  /* beforeEach(() => {
+    mockUserRepository.get.mockReset();
+    mockUserRepository.getUnique.mockReset();
+    mockUserRepository.create.mockReset();
+    mockUserRepository.update.mockReset();
+    mockUserRepository.delete.mockReset();
+  }); */
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(userService).toBeDefined();
   });
 
   describe('getUsers', () => {
@@ -62,33 +62,31 @@ describe('UserService', () => {
     };
 
     it('should list all users', async () => {
-      mockRepository.get.mockReturnValue(validUsers);
+      jest
+        .spyOn(mockUserRepository, 'get')
+        .mockImplementation(() => validUsers);
 
-      const users = await service.getUsers();
+      const users = await userService.getUsers();
 
       expect(users).toIncludeAllMembers(validUsers);
     });
 
     it('should list all users providing the where parameter', async () => {
-      mockRepository.get.mockReturnValue([validUser]);
+      jest
+        .spyOn(mockUserRepository, 'get')
+        .mockImplementation(() => [validUser]);
 
-      const user = await service.getUsers(whereParameter);
+      const user = await userService.getUsers(whereParameter);
 
       expect(user).toIncludeAllMembers([validUser]);
     });
 
-    it('should not pass when returned invalid users', async () => {
-      mockRepository.get.mockReturnValue(invalidUser);
+    it('should return an empty array when users are not found', async () => {
+      jest.spyOn(mockUserRepository, 'get').mockImplementation(() => []);
 
-      const users = await service.getUsers();
+      const notFoundUsers = await userService.getUsers();
 
-      expect(users).not.toEqual(validUsers);
-    });
-
-    it('should not pass when users are not found', async () => {
-      mockRepository.get.mockReturnValue([]);
-
-      await expect(service.getUsers()).resolves.toBeEmpty();
+      expect(notFoundUsers).toBeEmpty();
     });
   });
 
@@ -97,36 +95,35 @@ describe('UserService', () => {
     const whereParameter: UsersWhereUniqueInput = {
       id: 1,
     };
-    const invalidUser = TestUtil.returnInvalidUsers()[0];
 
     it('should list an unique user', async () => {
-      mockRepository.getUnique.mockReturnValue(validUser);
+      jest
+        .spyOn(mockUserRepository, 'getUnique')
+        .mockImplementation(() => validUser);
 
-      const user = await service.getUniqueUser();
+      const user = await userService.getUniqueUser();
 
       expect(user).toStrictEqual(validUser);
     });
 
     it('should list an unique user providing where parameter', async () => {
-      mockRepository.getUnique.mockReturnValue(validUser);
+      jest
+        .spyOn(mockUserRepository, 'getUnique')
+        .mockImplementation(() => validUser);
 
-      const user = await service.getUniqueUser(whereParameter);
+      const user = await userService.getUniqueUser(whereParameter);
 
       expect(user).toStrictEqual(validUser);
     });
 
-    it('should not pass when user has invalid values', async () => {
-      mockRepository.getUnique.mockReturnValue(invalidUser);
+    it('should return null when an user is not found', async () => {
+      jest
+        .spyOn(mockUserRepository, 'getUnique')
+        .mockImplementation(() => null);
 
-      const user = await service.getUniqueUser();
+      const notFoundUser = await userService.getUniqueUser();
 
-      expect(user).not.toStrictEqual(validUser);
-    });
-
-    it('should not pass when user is not found', async () => {
-      mockRepository.getUnique.mockReturnValue(null);
-
-      await expect(service.getUniqueUser()).resolves.toBeNull();
+      expect(notFoundUser).toBeNull();
     });
   });
 
@@ -134,9 +131,11 @@ describe('UserService', () => {
     const validUser = TestUtil.returnValidUser();
 
     it('should create an user', async () => {
-      mockRepository.create.mockReturnValue(validUser);
+      jest
+        .spyOn(mockUserRepository, 'create')
+        .mockImplementation(() => validUser);
 
-      const createdUser = await service.createUser(validUser);
+      const createdUser = await userService.createUser(validUser);
 
       expect(createdUser).toMatchObject(validUser);
     });
@@ -144,19 +143,23 @@ describe('UserService', () => {
     it('should not create an user when a required field is not provided', async () => {
       const invalidUser = TestUtil.returnInvalidUsers()[0];
 
-      mockRepository.create.mockReturnValue(invalidUser);
+      jest
+        .spyOn(mockUserRepository, 'create')
+        .mockRejectedValueOnce(invalidUser as never);
 
       await expect(
-        service.createUser(invalidUser as any),
+        userService.createUser(invalidUser as any),
       ).rejects.toBeInstanceOf(InternalServerErrorException);
     });
 
     it('should not create an user when wrong data is provided', async () => {
       const invalidUser = TestUtil.returnInvalidUsers[1];
 
-      mockRepository.create.mockReturnValue(invalidUser);
+      jest
+        .spyOn(mockUserRepository, 'create')
+        .mockRejectedValueOnce(invalidUser as never);
 
-      await expect(service.createUser(invalidUser)).rejects.toBeInstanceOf(
+      await expect(userService.createUser(invalidUser)).rejects.toBeInstanceOf(
         InternalServerErrorException,
       );
     });
@@ -164,10 +167,12 @@ describe('UserService', () => {
     it('should not create an user when any data is provided', async () => {
       const invalidUser = {};
 
-      mockRepository.create.mockReturnValue(invalidUser);
+      jest
+        .spyOn(mockUserRepository, 'create')
+        .mockRejectedValueOnce(invalidUser as never);
 
       await expect(
-        service.createUser(invalidUser as any),
+        userService.createUser(invalidUser as any),
       ).rejects.toBeInstanceOf(InternalServerErrorException);
     });
   });
@@ -177,20 +182,23 @@ describe('UserService', () => {
       TestUtil.returnValidUser();
     const invalidUser = TestUtil.returnInvalidUsers()[0];
     const validUserId = 1;
-    const invalidUserId = null;
 
     it('should update user', async () => {
-      mockRepository.update.mockReturnValue(validUser);
+      jest
+        .spyOn(mockUserRepository, 'update')
+        .mockImplementation(() => validUser);
 
-      const updatedUser = await service.updateUser(validUserId, validUser);
+      const updatedUser = await userService.updateUser(validUserId, validUser);
 
       expect(updatedUser).toStrictEqual(validUser);
     });
 
     it('should not update user when providing wrong data type', async () => {
-      mockRepository.update.mockReturnValue(invalidUser);
+      jest
+        .spyOn(mockUserRepository, 'update')
+        .mockImplementation(() => invalidUser);
 
-      const notUpdatedUser = await service.updateUser(
+      const notUpdatedUser = await userService.updateUser(
         validUserId,
         invalidUser as any,
       );
@@ -204,9 +212,11 @@ describe('UserService', () => {
     const validUserId = 1;
 
     it('should delete an user', async () => {
-      mockRepository.delete.mockReturnValue(validUser);
+      jest
+        .spyOn(mockUserRepository, 'delete')
+        .mockImplementation(() => validUser);
 
-      const deletedUser = await service.deleteUser(validUserId);
+      const deletedUser = await userService.deleteUser(validUserId);
 
       expect(deletedUser).toEqual(deletedUser);
     });

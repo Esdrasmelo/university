@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  university_database:
+    ports:
+      - 3305:3306
+    container_name: university_database_cont
+    image: mysql:5.7
+    env_file:
+      - ./.env
+    restart: always
+    hostname: mysql
+
+  backend:
+    build: .
+    ports:
+      - 4000:4000
+    container_name: university_backend_cont
+    depends_on:
+      - university_database
+    volumes:
+      - .:/usr/src/app
+    links:
+      - university_database  
+    environment:
+      WAIT_HOSTS: university_database:3306  
+      WAIT_TIMEOUT: 90
+    command: sh -c "/wait && yarn prisma generate && yarn prisma migrate reset -f && yarn start"
+    

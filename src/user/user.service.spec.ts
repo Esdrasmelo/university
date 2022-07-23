@@ -39,14 +39,6 @@ describe('UserService', () => {
     userService = module.get<UserService>(UserService);
   });
 
-  /* beforeEach(() => {
-    mockUserRepository.get.mockReset();
-    mockUserRepository.getUnique.mockReset();
-    mockUserRepository.create.mockReset();
-    mockUserRepository.update.mockReset();
-    mockUserRepository.delete.mockReset();
-  }); */
-
   it('should be defined', () => {
     expect(userService).toBeDefined();
   });
@@ -219,6 +211,18 @@ describe('UserService', () => {
       const deletedUser = await userService.deleteUser(validUserId);
 
       expect(deletedUser).toEqual(deletedUser);
+    });
+
+    it('should throw an expection when an non existing user id is provided', async () => {
+      const nonExistingUserId = 99999;
+
+      jest
+        .spyOn(mockUserRepository, 'delete')
+        .mockRejectedValueOnce(new InternalServerErrorException() as never);
+
+      await expect(
+        userService.deleteUser(nonExistingUserId),
+      ).rejects.toBeInstanceOf(InternalServerErrorException);
     });
   });
 });

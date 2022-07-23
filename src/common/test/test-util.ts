@@ -1,4 +1,4 @@
-import { Users } from '@prisma/client';
+import { TeachersSubjects, Users } from '@prisma/client';
 
 export default class TestUtil {
   static returnValidUsers(): Omit<Users, 'password'>[] {
@@ -70,5 +70,50 @@ export default class TestUtil {
     ];
 
     return users;
+  }
+
+  static returnValidTeachersSubjects(): TeachersSubjects[] {
+    const teachersSubjects: TeachersSubjects[] = [
+      {
+        id: 1,
+        teacher_id: 1,
+        subject_id: 1,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        id: 2,
+        teacher_id: 2,
+        subject_id: 2,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+    ];
+
+    return teachersSubjects;
+  }
+
+  static returnValidTeacherSubject(): Omit<
+    TeachersSubjects,
+    'id' | 'created_at' | 'updated_at'
+  > {
+    const teacherSubject: Omit<
+      TeachersSubjects,
+      'id' | 'created_at' | 'updated_at'
+    > = {
+      teacher_id: 1,
+      subject_id: 1,
+    };
+
+    return teacherSubject;
+  }
+
+  static returnInvalidTeacherSubject() {
+    const teacherSubject = {
+      subject_id: '1',
+      teacher_id: '1',
+    };
+
+    return teacherSubject;
   }
 }

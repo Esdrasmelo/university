@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { PrismaService } from '../prisma/prisma.service';
 import { UserDTO } from '../user/dto/user.dto';
-import { UserService } from '../user/user.service';
 import { BcryptUtils } from '../utils/bcrypt.utils';
 import { LoginInput } from './dto/login.input';
 import { LoginDTO } from './entities/login.entity';
@@ -9,7 +9,7 @@ import { LoginDTO } from './entities/login.entity';
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UserService,
+    private prismaService: PrismaService,
     private bcryptUtils: BcryptUtils,
     private jwtService: JwtService,
   ) {}
@@ -19,8 +19,10 @@ export class AuthService {
     password,
   }: LoginInput): Promise<UserDTO> {
     try {
-      const user = await this.userService.getUniqueUser({
-        email,
+      const user = await this.prismaService.users.findUnique({
+        where: {
+          email,
+        },
       });
 
       const arePasswordsEquals = user

@@ -3,11 +3,11 @@ import { TeacherSubjectService } from './teacher-subject.service';
 import { TeacherSubjectSchema } from './entities/teacher-subject.entity';
 import { CreateTeacherSubjectInput } from './dto/create-teacher-subject.input';
 import { UpdateTeacherSubjectInput } from './dto/update-teacher-subject.input';
-import { TeachersSubjectsWhereInput } from 'prisma/generated/teachers-subjects';
 import { TeachersSubjects } from '@prisma/client';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
 import { UserPermissionsGuard } from '../auth/guards/permissions-auth.guard';
+import { RedisDecorator } from '../utils/redis/redis-client.decorator';
 
 @Resolver()
 export class TeacherSubjectResolver {
@@ -16,10 +16,17 @@ export class TeacherSubjectResolver {
   @Query(() => [TeacherSubjectSchema])
   @UseGuards(GqlAuthGuard)
   @UseInterceptors(new UserPermissionsGuard('Teachers Subjects', 'can_read'))
-  teachersSubejcts(
-    @Args('where', { nullable: true }) where?: TeachersSubjectsWhereInput,
-  ): Promise<TeachersSubjects[]> {
-    return this.teacherSubjectService.teachersSubejcts(where);
+  teachersSubjects(@RedisDecorator() redis: any): Promise<TeachersSubjects[]> {
+    return this.teacherSubjectService.teachersSubejcts(redis);
+  }
+
+  @Query(() => TeacherSubjectSchema)
+  @UseGuards(GqlAuthGuard)
+  @UseInterceptors(new UserPermissionsGuard('Teachers Subjects', 'can_read'))
+  teacherSubject(
+    @Args('teacherSubjectId', { type: () => Int }) teacherSubjectId: number,
+  ): Promise<TeachersSubjects> {
+    return this.teacherSubjectService.teacherSubejct(teacherSubjectId);
   }
 
   @Mutation(() => TeacherSubjectSchema)

@@ -56,12 +56,19 @@ import { GradeModule } from './grade/grade.module';
 import { GradeService } from './grade/grade.service';
 import { GradeRepository } from './grade/grade.repository';
 import { GradeResolver } from './grade/grade.resolver';
+import * as redis from 'redis';
+
+const redisClient = redis.createClient();
+redisClient.connect();
 
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       autoSchemaFile: 'schema.gql',
-      context: ({ req }) => ({ headers: req.headers }),
+      context: ({ req }) => ({
+        headers: req.headers,
+        redisClient,
+      }),
       driver: ApolloDriver,
       include: [
         UserModule,

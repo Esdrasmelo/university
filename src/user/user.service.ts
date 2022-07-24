@@ -5,6 +5,7 @@ import {
   UsersWhereUniqueInput,
 } from '../../prisma/generated/users';
 import { BcryptUtils } from '../utils/bcrypt.utils';
+import { parseRedisReturn, setRedisKey } from '../utils/redis/redis';
 import { CreateUserInput } from './dto/inputs/create-user.input';
 import { UpdateUserInput } from './dto/inputs/update-user.input';
 import { UserRepository } from './user.repository';
@@ -16,21 +17,21 @@ export class UserService {
     private bcryptUtils: BcryptUtils,
   ) {}
 
-  async getUsers(where?: UsersWhereInput): Promise<Users[]> {
+  async getUsers(redis: any): Promise<Users[]> {
     try {
-      const users = await this.userRepository.get(where);
+      const getUsersRedisKey = await redis.get('getUsers');
 
-      return users;
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
-  }
+      if (!getUsersRedisKey) {
+        const users = await this.userRepository.get();
 
-  async getUniqueUser(where?: UsersWhereUniqueInput): Promise<Users> {
-    try {
-      const user = await this.userRepository.getUnique(where);
+        setRedisKey('getUsers', '300', users, redis);
 
-      return user;
+        return users;
+      }
+
+      const usersReturn = parseRedisReturn(getUsersRedisKey);
+
+      return usersReturn;
     } catch (error) {
       throw new InternalServerErrorException();
     }

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { TeachersSubjects } from '@prisma/client';
+import { TeachersSubjectsWhereInput } from 'prisma/generated/teachers-subjects';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateTeacherSubjectInput } from './dto/create-teacher-subject.input';
 import { UpdateTeacherSubjectInput } from './dto/update-teacher-subject.input';
@@ -8,15 +9,9 @@ import { UpdateTeacherSubjectInput } from './dto/update-teacher-subject.input';
 export class TeacherSubjectRepository {
   constructor(private prisma: PrismaService) {}
 
-  async get(): Promise<TeachersSubjects[]> {
-    return this.prisma.teachersSubjects.findMany();
-  }
-
-  async getUnique(teacherSubjectId: number): Promise<TeachersSubjects> {
-    return this.prisma.teachersSubjects.findUnique({
-      where: {
-        id: teacherSubjectId,
-      },
+  async get(where?: TeachersSubjectsWhereInput): Promise<TeachersSubjects[]> {
+    return this.prisma.teachersSubjects.findMany({
+      where,
     });
   }
 

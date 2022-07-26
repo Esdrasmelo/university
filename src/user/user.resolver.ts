@@ -8,7 +8,6 @@ import { UserService } from './user.service';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
 import { UserPermissionsGuard } from '../auth/guards/permissions-auth.guard';
-import { RedisDecorator } from '../utils/redis/redis-client.decorator';
 
 @Resolver()
 export class UserResolver {
@@ -17,12 +16,15 @@ export class UserResolver {
   @Query(() => [UserSchema])
   @UseGuards(GqlAuthGuard)
   @UseInterceptors(new UserPermissionsGuard('Users', 'can_read'))
-  async users(@RedisDecorator() redis: any): Promise<Users[]> {
-    return this.userService.getUsers(redis);
+  async users(
+    @Args('where', { nullable: true })
+    where: UsersWhereInput,
+  ): Promise<Users[]> {
+    return this.userService.getUsers(where);
   }
 
   @Mutation(() => UserSchema)
-  async createUser(
+  createUser(
     @Args('createUserInput') createUserInput: CreateUserInput,
   ): Promise<Users> {
     return this.userService.createUser(createUserInput);

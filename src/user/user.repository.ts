@@ -9,15 +9,27 @@ import { UpdateUserInput } from './dto/inputs/update-user.input';
 export class UserRepository {
   constructor(private prisma: PrismaService) {}
 
-  async get(): Promise<Users[]> {
+  get(where?: UsersWhereInput): Promise<Users[]> {
     try {
-      return this.prisma.users.findMany();
+      return this.prisma.users.findMany({
+        where,
+      });
     } catch (error) {
       throw error;
     }
   }
 
-  async create(fields: CreateUserInput): Promise<Users> {
+  getUnique(where?: UsersWhereUniqueInput): Promise<Users> {
+    try {
+      return this.prisma.users.findUnique({
+        where,
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  create(fields: CreateUserInput): Promise<Users> {
     try {
       return this.prisma.users.create({
         data: fields,
@@ -27,7 +39,7 @@ export class UserRepository {
     }
   }
 
-  async update(id: number, fields: UpdateUserInput): Promise<Users> {
+  update(id: number, fields: UpdateUserInput): Promise<Users> {
     try {
       return this.prisma.users.update({
         data: fields,
@@ -40,7 +52,7 @@ export class UserRepository {
     }
   }
 
-  async delete(id: number): Promise<Users> {
+  delete(id: number): Promise<Users> {
     try {
       return this.prisma.users.delete({
         where: {

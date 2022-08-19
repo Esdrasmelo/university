@@ -83,6 +83,8 @@ import { GradeResolver } from './grade/grade.resolver';
       introspection: true,
       playground: false,
       debug: false,
+      persistedQueries: false,
+      cache: 'bounded'
     }),
     ConfigModule.forRoot({
       isGlobal: true,

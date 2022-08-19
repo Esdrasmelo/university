@@ -6,14 +6,13 @@ import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const { APP_PORT } = process.env;
 
   app.useGlobalPipes(new ValidationPipe());
 
   const prismaService = app.get(PrismaService);
   await prismaService.enableShutdownHooks(app);
 
-  await app.listen(APP_PORT);
+  await app.listen(process.env.APP_PORT || 4000);
 }
 
 bootstrap();
